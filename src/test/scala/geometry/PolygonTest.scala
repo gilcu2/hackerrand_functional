@@ -3,10 +3,14 @@ package geometry
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalactic._
 
 class PolygonTest extends AnyFlatSpec with GivenWhenThen with Matchers {
 
 	"A set of points" should "have a  perimeter" in {
+
+		implicit val doubleEquality = TolerantNumerics.tolerantDoubleEquality(0.01)
+
 		Given("a polygon")
 		val polygon = Polygon(Array(
 			Point2D(0, 0),
@@ -21,7 +25,7 @@ class PolygonTest extends AnyFlatSpec with GivenWhenThen with Matchers {
 		val perimeter = polygon.getPerimeter
 
 		Then("the sequence should have the expected length")
-		perimeter shouldBe expectedPerimeter
+		perimeter === expectedPerimeter
 
 	}
 
